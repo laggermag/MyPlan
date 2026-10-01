@@ -2,24 +2,46 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover">
 
 <meta name="theme-color" content="#020307">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MyPlan">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="color-scheme" content="dark">
 
-<link rel="manifest" href="manifest.webmanifest">
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes">
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent">
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="MyPlan">
+
+<meta
+  name="mobile-web-app-capable"
+  content="yes">
+
+<link
+  rel="manifest"
+  href="manifest.webmanifest">
 
 <title>MyPlan</title>
 
+
 <style>
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
 
 :root{
   --bg:#020307;
 
-  /* НАСТОЯЩЕЕ ПРОЗРАЧНОЕ СТЕКЛО */
   --card:rgba(8,12,20,.07);
 
   --line:rgba(255,255,255,.16);
@@ -32,16 +54,33 @@
   --blue:#91a6dd;
 }
 
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
 *{
   box-sizing:border-box;
 }
 
 html{
+  width:100%;
+  min-height:100%;
+
+  background:#020307;
+
   scroll-behavior:smooth;
 }
 
 body{
   margin:0;
+
+  width:100%;
+
+  min-height:100vh;
+  min-height:100dvh;
+
+  overflow-x:hidden;
 
   background:
     radial-gradient(
@@ -64,15 +103,18 @@ body{
 
 
 /* =========================================================
-   ЗВЁЗДНОЕ НЕБО
+   STAR SKY
    ========================================================= */
 
 #sky{
   position:fixed;
+
   inset:0;
 
   width:100%;
   height:100%;
+
+  min-height:100dvh;
 
   z-index:-3;
 
@@ -81,7 +123,10 @@ body{
 
 .glow{
   position:fixed;
+
   inset:0;
+
+  min-height:100dvh;
 
   z-index:-2;
 
@@ -109,25 +154,28 @@ body{
 
 
 /* =========================================================
-   ОСНОВНОЙ КОНТЕЙНЕР
+   APP
    ========================================================= */
 
 .app{
   position:relative;
 
+  width:100%;
   max-width:1150px;
+
+  min-height:100vh;
 
   margin:auto;
 
   padding:
-    16px
+    calc(16px + env(safe-area-inset-top))
     12px
-    48px;
+    calc(48px + env(safe-area-inset-bottom));
 }
 
 
 /* =========================================================
-   ШАПКА
+   HEADER
    ========================================================= */
 
 .head{
@@ -159,7 +207,7 @@ body{
 
 
 /* =========================================================
-   GLASS NAV
+   NAVIGATION
    ========================================================= */
 
 nav{
@@ -240,7 +288,7 @@ nav button.active{
 
 
 /* =========================================================
-   СТРАНИЦЫ
+   PAGES
    ========================================================= */
 
 .page{
@@ -253,7 +301,7 @@ nav button.active{
 
 
 /* =========================================================
-   СЕТКИ
+   GRIDS
    ========================================================= */
 
 .grid{
@@ -278,7 +326,7 @@ nav button.active{
 
 
 /* =========================================================
-   GLASS CARD
+   GLASS CARDS
    ========================================================= */
 
 .card{
@@ -292,17 +340,9 @@ nav button.active{
 
   border-radius:18px;
 
-  /*
-    Очень прозрачное стекло.
-    Звёзды должны быть видны сквозь карточку.
-  */
   background:
     rgba(8,12,20,.07);
 
-  /*
-    Сильный blur создаёт
-    ощущение настоящего стекла.
-  */
   backdrop-filter:
     blur(16px)
     saturate(140%);
@@ -311,10 +351,6 @@ nav button.active{
     blur(16px)
     saturate(140%);
 
-  /*
-    Лёгкий внутренний свет
-    и очень мягкая тень.
-  */
   box-shadow:
 
     inset 0 1px 0
@@ -330,9 +366,7 @@ nav button.active{
 }
 
 
-/*
-  Лёгкий стеклянный блик.
-*/
+/* Glass reflection */
 
 .card::before{
   content:"";
@@ -367,9 +401,7 @@ nav button.active{
 }
 
 
-/*
-  Контент карточки выше блика.
-*/
+/* Content above reflection */
 
 .card > *{
   position:relative;
@@ -379,7 +411,7 @@ nav button.active{
 
 
 /* =========================================================
-   ТЕКСТ
+   TEXT
    ========================================================= */
 
 .label{
@@ -416,7 +448,7 @@ nav button.active{
 
 
 /* =========================================================
-   FORM
+   FORMS
    ========================================================= */
 
 form{
@@ -595,7 +627,7 @@ th{
 
 
 /* =========================================================
-   BARS
+   PROGRESS
    ========================================================= */
 
 .bar,
@@ -745,7 +777,7 @@ th{
 
 
 /* =========================================================
-   ВЫБОР ПЕРИОДА
+   DATE RANGE
    ========================================================= */
 
 .dateRange{
@@ -831,7 +863,7 @@ th{
 
 
 /* =========================================================
-   ADAPTIVE
+   TABLET
    ========================================================= */
 
 @media(max-width:800px){
@@ -848,13 +880,17 @@ th{
 }
 
 
+/* =========================================================
+   PHONE
+   ========================================================= */
+
 @media(max-width:520px){
 
   .app{
     padding:
-      12px
+      calc(12px + env(safe-area-inset-top))
       9px
-      35px;
+      calc(35px + env(safe-area-inset-bottom));
   }
 
   .head{
@@ -875,10 +911,6 @@ th{
 
     border-radius:16px;
 
-    /*
-      На маленьком экране
-      стекло ещё прозрачнее.
-    */
     background:
       rgba(8,12,20,.055);
 
@@ -914,12 +946,6 @@ th{
     gap:6px;
   }
 
-  /*
-    Название "с" и "по"
-    теперь сверху, чтобы
-    даты никогда не вылезали.
-  */
-
   .dateRange label{
     grid-template-columns:1fr;
 
@@ -940,7 +966,7 @@ th{
 
 
 /* =========================================================
-   УСТРОЙСТВА С REDUCED MOTION
+   REDUCED MOTION
    ========================================================= */
 
 @media(prefers-reduced-motion:reduce){
@@ -1015,7 +1041,7 @@ th{
 
 
 <!-- ======================================================
-     ГЛАВНАЯ
+     HOME
      ====================================================== -->
 
 <section
@@ -1155,7 +1181,7 @@ th{
 
 
 <!-- ======================================================
-     ОПЕРАЦИИ
+     OPERATIONS
      ====================================================== -->
 
 <section
@@ -1275,7 +1301,7 @@ th{
 
 
 <!-- ======================================================
-     ЦЕЛИ
+     GOALS
      ====================================================== -->
 
 <section
@@ -1400,7 +1426,7 @@ th{
 
 
 <!-- ======================================================
-     АНАЛИЗ
+     ANALYSIS
      ====================================================== -->
 
 <section
@@ -1546,7 +1572,7 @@ th{
 
 
 <!-- ======================================================
-     ИМПОРТ
+     IMPORT
      ====================================================== -->
 
 <section
@@ -1652,7 +1678,7 @@ th{
 <script>
 
 /* =========================================================
-   ХРАНИЛИЩЕ
+   STORAGE
    ========================================================= */
 
 const KEY='myplan_v7';
@@ -1677,7 +1703,7 @@ const $=
 
 
 /* =========================================================
-   ФОРМАТ ДЕНЕГ
+   MONEY
    ========================================================= */
 
 const money=
@@ -1733,14 +1759,16 @@ function saveG(){
 
 
 /* =========================================================
-   PERIOD
+   PERIOD DATA
    ========================================================= */
 
 function periodData(){
 
-  let f=$('fromDate').value;
+  let f=
+    $('fromDate').value;
 
-  let t=$('toDate').value;
+  let t=
+    $('toDate').value;
 
 
   return d.filter(
@@ -1757,11 +1785,14 @@ function periodData(){
 
 function setDefaultPeriod(){
 
-  let n=new Date();
+  let n=
+    new Date();
 
-  let y=n.getFullYear();
+  let y=
+    n.getFullYear();
 
-  let m=n.getMonth();
+  let m=
+    n.getMonth();
 
 
   $('fromDate').value=
@@ -1794,34 +1825,23 @@ function goalHtml(x){
 
   <div class="goal">
 
-
     <div class="goaltop">
-
 
       <div>
 
-
         <div class="goalname">
-
           ${esc(x.name)}
-
         </div>
-
 
         <div class="small">
 
           ${money(x.saved)}
-
           из
-
           ${money(x.target)}
-
           ·
-
           ${Math.round(p)}%
 
         </div>
-
 
       </div>
 
@@ -1833,7 +1853,6 @@ function goalHtml(x){
         ×
 
       </button>
-
 
     </div>
 
@@ -1876,7 +1895,6 @@ function goalHtml(x){
 
     </div>
 
-
   </div>
 
   `;
@@ -1889,7 +1907,8 @@ function goalHtml(x){
 
 function toggleGoalForm(){
 
-  let w=$('goalFormWrap');
+  let w=
+    $('goalFormWrap');
 
 
   w.style.display=
@@ -1925,7 +1944,9 @@ function toggleGoalForm(){
 function addToGoal(id){
 
   let x=
-    g.find(v=>v.id===id);
+    g.find(
+      v=>v.id===id
+    );
 
 
   if(!x)return;
@@ -1958,6 +1979,7 @@ function addToGoal(id){
     );
 
     return;
+
   }
 
 
@@ -2021,7 +2043,8 @@ function render(){
       );
 
 
-  let b=i-e;
+  let b=
+    i-e;
 
 
   $('income').textContent=
@@ -2048,13 +2071,15 @@ function render(){
 
 
   d
-    .filter(x=>x.t==='e')
-    .forEach(x=>{
-
-      c[x.c]=
-        (c[x.c]||0)+x.a;
-
-    });
+    .filter(
+      x=>x.t==='e'
+    )
+    .forEach(
+      x=>{
+        c[x.c]=
+          (c[x.c]||0)+x.a;
+      }
+    );
 
 
   let ce=
@@ -2069,44 +2094,48 @@ function render(){
 
 
   $('cats').innerHTML=
+
     ce.length
 
-      ?ce.map(
-        ([k,v])=>`
-
-          <div
-            style="margin-bottom:13px">
+      ?ce
+        .map(
+          ([k,v])=>`
 
             <div
               style="
-                display:flex;
-                justify-content:space-between;
-                margin-bottom:5px">
+                margin-bottom:13px">
 
-              <span>
-                ${esc(k)}
-              </span>
-
-              <span>
-                ${money(v)}
-              </span>
-
-            </div>
-
-
-            <div class="bar">
-
-              <span
+              <div
                 style="
-                  width:${v/mx*100}%">
-              </span>
+                  display:flex;
+                  justify-content:space-between;
+                  margin-bottom:5px">
+
+                <span>
+                  ${esc(k)}
+                </span>
+
+                <span>
+                  ${money(v)}
+                </span>
+
+              </div>
+
+
+              <div class="bar">
+
+                <span
+                  style="
+                    width:${v/mx*100}%">
+                </span>
+
+              </div>
 
             </div>
 
-          </div>
-
-        `
-      ).join('')
+          `
+        )
+        .join('')
 
       :`
         <div class="empty">
@@ -2120,11 +2149,12 @@ function render(){
      ===================================================== */
 
   let s=
-    [...d].sort(
-      (a,b)=>
-        b.date.localeCompare(a.date)||
-        b.id-a.id
-    );
+    [...d]
+      .sort(
+        (a,b)=>
+          b.date.localeCompare(a.date)||
+          b.id-a.id
+      );
 
 
   let rr=
@@ -2198,7 +2228,7 @@ function render(){
 
 
   /* =====================================================
-     ALL
+     ALL OPERATIONS
      ===================================================== */
 
   $('all').innerHTML=
@@ -2233,73 +2263,69 @@ function render(){
 
 
           ${
+            s
+              .map(
+                x=>`
 
-            s.map(
-              x=>`
+                  <tr>
 
-                <tr>
+                    <td>
+                      ${x.date}
+                    </td>
 
-                  <td>
-                    ${x.date}
-                  </td>
+                    <td>
+                      ${
+                        x.t==='i'
+                          ?'Доход'
+                          :'Расход'
+                      }
+                    </td>
 
+                    <td>
 
-                  <td>
-                    ${
-                      x.t==='i'
-                        ?'Доход'
-                        :'Расход'
-                    }
-                  </td>
+                      ${esc(x.c)}
 
+                      ${
+                        x.n
+                          ?`
+                            <br>
 
-                  <td>
+                            <span class="small">
+                              ${esc(x.n)}
+                            </span>
+                          `
+                          :''
+                      }
 
-                    ${esc(x.c)}
+                    </td>
 
-                    ${
-                      x.n
-                        ?`
-                          <br>
+                    <td
+                      class="${x.t==='i'
+                        ?'green'
+                        :'red'}">
 
-                          <span class="small">
-                            ${esc(x.n)}
-                          </span>
-                        `
-                        :''
-                    }
+                      ${x.t==='i'?'+':'−'}
+                      ${money(x.a)}
 
-                  </td>
+                    </td>
 
+                    <td>
 
-                  <td
-                    class="${x.t==='i'
-                      ?'green'
-                      :'red'}">
+                      <button
+                        class="btn red"
+                        onclick="del(${x.id})">
 
-                    ${x.t==='i'?'+':'−'}
-                    ${money(x.a)}
+                        ×
 
-                  </td>
+                      </button>
 
+                    </td>
 
-                  <td>
+                  </tr>
 
-                    <button
-                      class="btn red"
-                      onclick="del(${x.id})">
-
-                      ×
-
-                    </button>
-
-                  </td>
-
-                </tr>
-
-              `
-            ).join('')
-
+                `
+              )
+              .join('')
           }
 
         </table>
@@ -2307,11 +2333,9 @@ function render(){
       `
 
       :`
-
         <div class="empty">
           Нет операций.
         </div>
-
       `;
 
 
@@ -2523,12 +2547,12 @@ function renderAnalysis(){
   let c={};
 
 
-  ex.forEach(x=>{
-
-    c[x.c]=
-      (c[x.c]||0)+x.a;
-
-  });
+  ex.forEach(
+    x=>{
+      c[x.c]=
+        (c[x.c]||0)+x.a;
+    }
+  );
 
 
   let ce=
@@ -2636,7 +2660,7 @@ $('date').value=
 
 
 /* =========================================================
-   ADD OPERATION
+   OPERATION FORM
    ========================================================= */
 
 $('opForm').onsubmit=e=>{
@@ -2646,14 +2670,16 @@ $('opForm').onsubmit=e=>{
 
   d.push({
 
-    id:Date.now(),
+    id:
+      Date.now(),
 
     t:
       $('type').value==='income'
         ?'i'
         :'e',
 
-    a:+$('amount').value,
+    a:
+      +$('amount').value,
 
     c:
       $('cat').value.trim()
@@ -2686,7 +2712,7 @@ $('opForm').onsubmit=e=>{
 
 
 /* =========================================================
-   ADD GOAL
+   GOAL FORM
    ========================================================= */
 
 $('goalForm').onsubmit=e=>{
@@ -2696,7 +2722,8 @@ $('goalForm').onsubmit=e=>{
 
   g.push({
 
-    id:Date.now(),
+    id:
+      Date.now(),
 
     name:
       $('gname').value,
@@ -2731,37 +2758,41 @@ $('goalForm').onsubmit=e=>{
 
 document
   .querySelectorAll('nav button')
-  .forEach(b=>{
+  .forEach(
+    b=>{
 
-    b.onclick=()=>{
+      b.onclick=()=>{
 
-      document
-        .querySelectorAll('nav button')
-        .forEach(x=>
-          x.classList.remove('active')
-        );
-
-
-      b.classList.add('active');
-
-
-      document
-        .querySelectorAll('.page')
-        .forEach(x=>
-          x.classList.remove('active')
-        );
+        document
+          .querySelectorAll('nav button')
+          .forEach(
+            x=>
+              x.classList.remove('active')
+          );
 
 
-      $(b.dataset.p)
-        .classList.add('active');
+        b.classList.add('active');
 
-    };
 
-  });
+        document
+          .querySelectorAll('.page')
+          .forEach(
+            x=>
+              x.classList.remove('active')
+          );
+
+
+        $(b.dataset.p)
+          .classList.add('active');
+
+      };
+
+    }
+  );
 
 
 /* =========================================================
-   SIMPLE IMPORT PARSER
+   IMPORT PARSER
    ========================================================= */
 
 function parseSimple(text){
@@ -2932,7 +2963,6 @@ $('file').onchange=
 
     try{
 
-
       /* CSV */
 
       if(
@@ -2954,7 +2984,6 @@ $('file').onchange=
         $('status').textContent=
           `Добавлено: ${add.length}. `+
           `Проверь операции и категории.`;
-
 
       }
 
@@ -2999,7 +3028,9 @@ $('file').onchange=
         let add=
           parseSimple(
             rows
-              .map(r=>r.join(' | '))
+              .map(
+                r=>r.join(' | ')
+              )
               .join('\n')
           );
 
@@ -3114,7 +3145,7 @@ $('file').onchange=
 
 
 /* =========================================================
-   STARS
+   STAR ENGINE
    ========================================================= */
 
 const c=
@@ -3130,7 +3161,7 @@ let scrollY=0;
 
 
 /* =========================================================
-   RESIZE
+   RESIZE STARS
    ========================================================= */
 
 function resize(){
@@ -3157,12 +3188,6 @@ function resize(){
   );
 
 
-  /*
-    Больше звёзд.
-    Они стали немного крупнее
-    и ярче.
-  */
-
   stars=
     Array.from(
       {
@@ -3183,29 +3208,13 @@ function resize(){
         y:
           Math.random()*innerHeight,
 
-        /*
-          Размер:
-          от очень маленьких
-          до хорошо заметных.
-        */
-
         r:
           .25+
           Math.random()*.8,
 
-        /*
-          Яркость:
-          теперь звёзды хорошо
-          видны через стекло.
-        */
-
         a:
           .45+
           Math.random()*.55,
-
-        /*
-          Параллакс при скролле.
-        */
 
         d:
           .08+
@@ -3326,7 +3335,6 @@ renderAnalysis();
 </script>
 
 
-
 <!-- =======================================================
      XLSX
      ======================================================= -->
@@ -3336,7 +3344,6 @@ renderAnalysis();
 </script>
 
 
-
 <!-- =======================================================
      PDF.JS
      ======================================================= -->
@@ -3344,22 +3351,17 @@ renderAnalysis();
 <script type="module">
 
 import * as pdfjsLib
-
-from
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
 
 
 window.pdfjsLib=
   pdfjsLib;
 
 
-pdfjsLib
-  .GlobalWorkerOptions
-  .workerSrc=
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+pdfjsLib.GlobalWorkerOptions.workerSrc=
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 
 </script>
-
 
 
 <!-- =======================================================
