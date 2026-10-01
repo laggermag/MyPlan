@@ -1,0 +1,9 @@
+{
+  "name": "MyPlan — личные финансы",
+  "short_name": "MyPlan",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#030509",
+  "theme_color": "#030509",
+  "description": "Личная система денег, расходов и целей"
+}
