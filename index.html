@@ -3,864 +3,1904 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#030509">
+
+<meta name="theme-color" content="#020307">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MyPlan">
 <meta name="mobile-web-app-capable" content="yes">
+
 <link rel="manifest" href="manifest.webmanifest">
+
 <title>MyPlan</title>
 
 <style>
+
 :root{
-  --bg:#030509;
-  --card:#0d11193d;
-  --line:#ffffff1c;
+  --bg:#020307;
+
+  /* НАСТОЯЩЕЕ ПРОЗРАЧНОЕ СТЕКЛО */
+  --card:rgba(8,12,20,.07);
+
+  --line:rgba(255,255,255,.16);
+
   --text:#f5f7fb;
   --muted:#8d96a8;
+
   --green:#78c99a;
   --red:#d97878;
-  --blue:#91a6dd
+  --blue:#91a6dd;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 html{
-  scroll-behavior:smooth
+  scroll-behavior:smooth;
 }
 
 body{
   margin:0;
-  background:var(--bg);
+
+  background:
+    radial-gradient(
+      circle at 50% -20%,
+      #10182a 0%,
+      #04060b 45%,
+      #020307 100%
+    );
+
   color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
+
+
+/* =========================================================
+   ЗВЁЗДНОЕ НЕБО
+   ========================================================= */
 
 #sky{
   position:fixed;
   inset:0;
+
   width:100%;
   height:100%;
-  z-index:-2;
-  background:#030509
+
+  z-index:-3;
+
+  background:#020307;
 }
 
 .glow{
   position:fixed;
   inset:0;
-  z-index:-1;
+
+  z-index:-2;
+
   pointer-events:none;
+
   background:
-    radial-gradient(circle at 20% 15%,#445b9c10,transparent 27%),
-    radial-gradient(circle at 80% 80%,#7756a60b,transparent 28%)
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(80,110,190,.13),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at 82% 78%,
+      rgba(125,80,180,.10),
+      transparent 32%
+    ),
+
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(50,70,120,.035),
+      transparent 55%
+    );
 }
 
+
+/* =========================================================
+   ОСНОВНОЙ КОНТЕЙНЕР
+   ========================================================= */
+
 .app{
+  position:relative;
+
   max-width:1150px;
+
   margin:auto;
-  padding:16px 12px 48px
+
+  padding:
+    16px
+    12px
+    48px;
 }
+
+
+/* =========================================================
+   ШАПКА
+   ========================================================= */
 
 .head{
   display:flex;
+
   justify-content:space-between;
   align-items:end;
+
   gap:14px;
-  margin-bottom:14px
+
+  margin-bottom:14px;
 }
 
 .brand{
   font-size:29px;
+
   font-weight:900;
-  letter-spacing:-1px
+
+  letter-spacing:-1px;
 }
 
 .sub{
   font-size:12px;
+
   color:var(--muted);
-  margin-top:3px
+
+  margin-top:3px;
 }
+
+
+/* =========================================================
+   GLASS NAV
+   ========================================================= */
 
 nav{
   display:flex;
+
   gap:4px;
+
   overflow:auto;
+
   padding:4px;
-  border:1px solid var(--line);
+
+  border:
+    1px solid
+    rgba(255,255,255,.15);
+
   border-radius:14px;
-  background:#090c1340;
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px)
+
+  background:
+    rgba(8,12,20,.055);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(140%);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(140%);
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255,255,255,.06),
+
+    0 8px 30px
+    rgba(0,0,0,.10);
 }
 
 nav button{
   border:0;
+
   background:transparent;
+
   color:var(--muted);
-  padding:9px 12px;
+
+  padding:
+    9px
+    12px;
+
   border-radius:10px;
+
   font-weight:750;
-  white-space:nowrap
+
+  white-space:nowrap;
+
+  cursor:pointer;
+
+  transition:
+    background .2s ease,
+    color .2s ease;
+}
+
+nav button:hover{
+  background:
+    rgba(255,255,255,.045);
+
+  color:#fff;
 }
 
 nav button.active{
-  background:#ffffff0b;
-  color:#fff
+  background:
+    rgba(255,255,255,.08);
+
+  color:#fff;
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255,255,255,.05);
 }
 
+
+/* =========================================================
+   СТРАНИЦЫ
+   ========================================================= */
+
 .page{
-  display:none
+  display:none;
 }
 
 .page.active{
-  display:block
+  display:block;
 }
+
+
+/* =========================================================
+   СЕТКИ
+   ========================================================= */
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:10px;
 }
 
 .two{
   display:grid;
-  grid-template-columns:1.2fr .8fr;
+
+  grid-template-columns:
+    1.2fr .8fr;
+
   gap:10px;
-  margin-top:10px
+
+  margin-top:10px;
 }
 
+
+/* =========================================================
+   GLASS CARD
+   ========================================================= */
+
 .card{
-  border:1px solid var(--line);
+  position:relative;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    rgba(255,255,255,.16);
+
   border-radius:18px;
-  background:var(--card);
+
+  /*
+    Очень прозрачное стекло.
+    Звёзды должны быть видны сквозь карточку.
+  */
+  background:
+    rgba(8,12,20,.07);
+
+  /*
+    Сильный blur создаёт
+    ощущение настоящего стекла.
+  */
+  backdrop-filter:
+    blur(16px)
+    saturate(140%);
+
+  -webkit-backdrop-filter:
+    blur(16px)
+    saturate(140%);
+
+  /*
+    Лёгкий внутренний свет
+    и очень мягкая тень.
+  */
+  box-shadow:
+
+    inset 0 1px 0
+    rgba(255,255,255,.065),
+
+    inset 0 -1px 0
+    rgba(255,255,255,.015),
+
+    0 8px 32px
+    rgba(0,0,0,.12);
+
   padding:15px;
-  backdrop-filter:blur(7px);
-  -webkit-backdrop-filter:blur(7px)
 }
+
+
+/*
+  Лёгкий стеклянный блик.
+*/
+
+.card::before{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  border-radius:inherit;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      135deg,
+
+      rgba(255,255,255,.065)
+      0%,
+
+      rgba(255,255,255,.015)
+      22%,
+
+      transparent
+      48%,
+
+      transparent
+      75%,
+
+      rgba(255,255,255,.02)
+      100%
+    );
+}
+
+
+/*
+  Контент карточки выше блика.
+*/
+
+.card > *{
+  position:relative;
+
+  z-index:1;
+}
+
+
+/* =========================================================
+   ТЕКСТ
+   ========================================================= */
 
 .label{
   font-size:12px;
-  color:var(--muted)
+
+  color:var(--muted);
 }
 
 .value{
   font-size:25px;
+
   font-weight:900;
-  margin-top:7px
+
+  margin-top:7px;
 }
 
-.green{color:var(--green)}
-.red{color:var(--red)}
-.blue{color:var(--blue)}
+.green{
+  color:var(--green);
+}
+
+.red{
+  color:var(--red);
+}
+
+.blue{
+  color:var(--blue);
+}
 
 .title{
   font-weight:850;
-  margin-bottom:13px
+
+  margin-bottom:13px;
 }
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
 
 form{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:8px;
 }
 
-input,select{
+
+/* =========================================================
+   GLASS INPUTS
+   ========================================================= */
+
+input,
+select{
   width:100%;
+
   padding:11px;
+
   border-radius:11px;
-  border:1px solid var(--line);
-  background:#171c2760;
+
+  border:
+    1px solid
+    rgba(255,255,255,.13);
+
+  background:
+    rgba(20,25,38,.10);
+
+  backdrop-filter:
+    blur(12px)
+    saturate(130%);
+
+  -webkit-backdrop-filter:
+    blur(12px)
+    saturate(130%);
+
   color:#fff;
-  outline:0
+
+  outline:0;
+
+  transition:
+    border .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+input:focus,
+select:focus{
+  border-color:
+    rgba(255,255,255,.28);
+
+  background:
+    rgba(25,30,45,.16);
+
+  box-shadow:
+    0 0 0 2px
+    rgba(255,255,255,.025);
+}
+
+input::placeholder{
+  color:
+    rgba(255,255,255,.38);
 }
 
 .full{
-  grid-column:1/-1
+  grid-column:1/-1;
 }
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 
 .btn{
   border:0;
+
   border-radius:11px;
-  padding:11px 13px;
+
+  padding:
+    11px
+    13px;
+
   font-weight:800;
+
   background:#d7dbe2;
+
   color:#090b10;
-  cursor:pointer
+
+  cursor:pointer;
+
+  transition:
+    transform .15s ease,
+    opacity .15s ease;
+}
+
+.btn:hover{
+  opacity:.9;
+}
+
+.btn:active{
+  transform:scale(.98);
 }
 
 .btn.alt{
-  background:#ffffff08;
+  background:
+    rgba(255,255,255,.045);
+
   color:#fff;
-  border:1px solid #ffffff12
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  backdrop-filter:blur(8px);
+
+  -webkit-backdrop-filter:blur(8px);
 }
 
 .btn.red{
-  background:#ff777714;
+  background:
+    rgba(255,119,119,.075);
+
   color:#ffabab;
-  border:1px solid #ff777722
+
+  border:
+    1px solid
+    rgba(255,119,119,.14);
 }
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
 
 table{
   width:100%;
-  border-collapse:collapse
+
+  border-collapse:collapse;
 }
 
-th,td{
-  padding:10px 6px;
-  border-bottom:1px solid var(--line);
+th,
+td{
+  padding:
+    10px
+    6px;
+
+  border-bottom:
+    1px solid
+    var(--line);
+
   font-size:13px;
-  text-align:left
+
+  text-align:left;
 }
 
 th{
-  color:var(--muted)
-}
-
-.empty,.hint{
   color:var(--muted);
+}
+
+
+/* =========================================================
+   EMPTY / HINT
+   ========================================================= */
+
+.empty,
+.hint{
+  color:var(--muted);
+
   font-size:13px;
-  line-height:1.55
+
+  line-height:1.55;
 }
 
-.bar,.progress{
+
+/* =========================================================
+   BARS
+   ========================================================= */
+
+.bar,
+.progress{
   height:8px;
+
   border-radius:20px;
-  background:#ffffff0d;
-  overflow:hidden
+
+  background:
+    rgba(255,255,255,.055);
+
+  overflow:hidden;
 }
 
-.bar span,.progress span{
+.bar span,
+.progress span{
   display:block;
+
   height:100%;
-  background:#e3e7ef;
-  border-radius:20px
+
+  background:
+    rgba(227,231,239,.9);
+
+  border-radius:20px;
 }
+
+
+/* =========================================================
+   GOALS
+   ========================================================= */
 
 .goalAdd{
   margin-bottom:12px;
+
   font-size:13px;
-  padding:9px 11px
+
+  padding:
+    9px
+    11px;
 }
 
 .goal{
-  margin-bottom:15px
+  margin-bottom:15px;
 }
 
 .goaltop{
   display:flex;
+
   justify-content:space-between;
-  gap:8px
+
+  gap:8px;
 }
 
 .goalname{
-  font-weight:800
+  font-weight:800;
 }
 
 .small{
   font-size:12px;
-  color:var(--muted)
+
+  color:var(--muted);
 }
+
+
+/* =========================================================
+   ADVICE
+   ========================================================= */
 
 .advice{
   line-height:1.6;
-  color:#dfe3eb
+
+  color:#dfe3eb;
 }
 
 .advice b{
-  color:#fff
+  color:#fff;
 }
+
+
+/* =========================================================
+   KPI
+   ========================================================= */
 
 .kpis{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:8px;
 }
 
 .mini{
   padding:12px;
+
   border-radius:13px;
-  background:#ffffff08
+
+  background:
+    rgba(255,255,255,.035);
+
+  border:
+    1px solid
+    rgba(255,255,255,.06);
+
+  backdrop-filter:blur(9px);
+
+  -webkit-backdrop-filter:blur(9px);
 }
 
 .mini b{
   display:block;
+
   font-size:19px;
-  margin-top:5px
+
+  margin-top:5px;
 }
 
+
+/* =========================================================
+   UPLOAD
+   ========================================================= */
+
 .upload{
-  border:1px dashed #ffffff25;
+  border:
+    1px dashed
+    rgba(255,255,255,.16);
+
   border-radius:14px;
+
   padding:18px;
-  text-align:center
+
+  text-align:center;
+
+  background:
+    rgba(255,255,255,.018);
+
+  backdrop-filter:blur(8px);
+
+  -webkit-backdrop-filter:blur(8px);
 }
 
 .upload input{
   border:0;
-  background:transparent
+
+  background:transparent;
 }
 
-/* Компактный выбор периода */
+
+/* =========================================================
+   ВЫБОР ПЕРИОДА
+   ========================================================= */
+
 .dateRange{
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:7px;
-  min-width:0
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:8px;
+
+  width:100%;
+
+  min-width:0;
 }
 
 .dateRange label{
   display:grid;
-  grid-template-columns:auto minmax(0,1fr);
+
+  grid-template-columns:
+    auto
+    minmax(0,1fr);
+
   align-items:center;
-  gap:4px;
+
+  gap:5px;
+
   min-width:0;
-  overflow:hidden
 }
 
 .dateRange span{
   font-size:11px;
-  color:var(--muted)
+
+  color:var(--muted);
 }
 
-.dateRange input{
-  display:block;
+.dateRange input[type="date"]{
+  box-sizing:border-box;
+
   min-width:0;
+
   width:100%;
+
   max-width:100%;
-  padding:8px 2px;
-  font-size:10px;
+
+  height:36px;
+
+  padding:
+    7px
+    5px;
+
+  font-size:11px;
+
+  line-height:1;
+
   letter-spacing:-.3px;
-  overflow:hidden
+
+  overflow:hidden;
+
+  background:
+    rgba(20,25,38,.10);
 }
+
+.dateRange input[type="date"]::-webkit-calendar-picker-indicator{
+  margin:0;
+
+  padding:0;
+
+  opacity:.75;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
 
 .footer{
   font-size:11px;
+
   color:var(--muted);
-  margin-top:13px
+
+  margin-top:13px;
 }
 
+
+/* =========================================================
+   ADAPTIVE
+   ========================================================= */
+
 @media(max-width:800px){
+
   .grid{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:
+      1fr 1fr;
   }
 
   .two{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
+
 }
 
+
 @media(max-width:520px){
+
   .app{
-    padding:12px 9px 35px
+    padding:
+      12px
+      9px
+      35px;
   }
 
   .head{
-    display:block
+    display:block;
   }
 
   .head nav{
-    margin-top:10px
+    margin-top:10px;
   }
 
   .grid{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:
+      1fr 1fr;
   }
 
   .card{
-    padding:13px
+    padding:13px;
+
+    border-radius:16px;
+
+    /*
+      На маленьком экране
+      стекло ещё прозрачнее.
+    */
+    background:
+      rgba(8,12,20,.055);
+
+    backdrop-filter:
+      blur(14px)
+      saturate(140%);
+
+    -webkit-backdrop-filter:
+      blur(14px)
+      saturate(140%);
   }
 
   .value{
-    font-size:20px
+    font-size:20px;
   }
 
   form{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .full{
-    grid-column:auto
+    grid-column:auto;
   }
 
   .kpis{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .dateRange{
-    gap:4px
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:6px;
   }
 
-  .dateRange input{
-    font-size:9px;
-    padding:8px 1px;
-    letter-spacing:-.5px
+  /*
+    Название "с" и "по"
+    теперь сверху, чтобы
+    даты никогда не вылезали.
+  */
+
+  .dateRange label{
+    grid-template-columns:1fr;
+
+    gap:3px;
   }
+
+  .dateRange input[type="date"]{
+    width:100%;
+
+    font-size:11px;
+
+    padding:
+      7px
+      4px;
+  }
+
 }
+
+
+/* =========================================================
+   УСТРОЙСТВА С REDUCED MOTION
+   ========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  html{
+    scroll-behavior:auto;
+  }
+
+  *{
+    transition:none !important;
+  }
+
+}
+
 </style>
 </head>
+
 
 <body>
 
 <canvas id="sky"></canvas>
+
 <div class="glow"></div>
+
 
 <main class="app">
 
+
 <header class="head">
+
   <div>
-    <div class="brand">MyPlan</div>
-    <div class="sub">личная система денег и целей</div>
+
+    <div class="brand">
+      MyPlan
+    </div>
+
+    <div class="sub">
+      личная система денег и целей
+    </div>
+
   </div>
 
+
   <nav id="nav">
-    <button class="active" data-p="home">Главная</button>
-    <button data-p="ops">Операции</button>
-    <button data-p="goalsPage">Цели</button>
-    <button data-p="analysis">Анализ</button>
-    <button data-p="import">Импорт</button>
+
+    <button
+      class="active"
+      data-p="home">
+      Главная
+    </button>
+
+    <button data-p="ops">
+      Операции
+    </button>
+
+    <button data-p="goalsPage">
+      Цели
+    </button>
+
+    <button data-p="analysis">
+      Анализ
+    </button>
+
+    <button data-p="import">
+      Импорт
+    </button>
+
   </nav>
+
 </header>
 
-<section id="home" class="page active">
+
+
+<!-- ======================================================
+     ГЛАВНАЯ
+     ====================================================== -->
+
+<section
+  id="home"
+  class="page active">
+
 
   <div class="grid">
 
-    <div class="card">
-      <div class="label">Баланс</div>
-      <div class="value" id="balance">0 ₸</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Доходы</div>
-      <div class="value green" id="income">0 ₸</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Расходы</div>
-      <div class="value red" id="expense">0 ₸</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Остаток</div>
-      <div class="value blue" id="left">0 ₸</div>
-    </div>
-
-  </div>
-
-  <div class="two">
-
-    <div class="card">
-      <div class="title">Куда уходят деньги</div>
-      <div id="cats"></div>
-    </div>
-
-    <div class="card">
-      <div class="title">Умный анализ</div>
-      <div id="quick" class="advice"></div>
-    </div>
-
-  </div>
-
-  <div class="two">
-
-    <div class="card">
-      <div class="title">Последние операции</div>
-      <div id="recent"></div>
-    </div>
-
-    <div class="card">
-      <div class="title">Цели</div>
-      <div id="goalMini"></div>
-    </div>
-
-  </div>
-
-</section>
-
-<section id="ops" class="page">
-
-  <div class="two">
 
     <div class="card">
 
-      <div class="title">Добавить операцию</div>
+      <div class="label">
+        Баланс
+      </div>
 
-      <form id="opForm">
-
-        <select id="type">
-          <option value="income">Доход</option>
-          <option value="expense">Расход</option>
-        </select>
-
-        <input id="amount"
-               type="number"
-               min="0"
-               placeholder="Сумма, ₸"
-               required>
-
-        <input id="cat"
-               placeholder="Категория"
-               required>
-
-        <input id="date"
-               type="date"
-               required>
-
-        <input id="note"
-               class="full"
-               placeholder="Комментарий">
-
-        <button class="btn full">Добавить</button>
-
-      </form>
-
-    </div>
-
-    <div class="card">
-
-      <div class="title">Правило</div>
-
-      <div class="hint">
-        Категории лучше держать стабильными:
-        Еда, Транспорт, Одежда, Развлечения, Бизнес.
-        Так анализ будет точнее.
+      <div
+        class="value"
+        id="balance">
+        0 ₸
       </div>
 
     </div>
 
-  </div>
-
-  <div class="card" style="margin-top:10px">
-
-    <div class="title">Все операции</div>
-
-    <div id="all"></div>
-
-  </div>
-
-</section>
-
-<section id="goalsPage" class="page">
-
-  <div class="two">
 
     <div class="card">
 
-      <div class="title">Новая цель</div>
+      <div class="label">
+        Доходы
+      </div>
 
-      <button type="button"
-              class="btn goalAdd"
-              onclick="toggleGoalForm()">
+      <div
+        class="value green"
+        id="income">
+        0 ₸
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="label">
+        Расходы
+      </div>
+
+      <div
+        class="value red"
+        id="expense">
+        0 ₸
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="label">
+        Остаток
+      </div>
+
+      <div
+        class="value blue"
+        id="left">
+        0 ₸
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+  <div class="two">
+
+
+    <div class="card">
+
+      <div class="title">
+        Куда уходят деньги
+      </div>
+
+      <div id="cats"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="title">
+        Умный анализ
+      </div>
+
+      <div
+        id="quick"
+        class="advice">
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+  <div class="two">
+
+
+    <div class="card">
+
+      <div class="title">
+        Последние операции
+      </div>
+
+      <div id="recent"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="title">
+        Цели
+      </div>
+
+      <div id="goalMini"></div>
+
+    </div>
+
+
+  </div>
+
+
+</section>
+
+
+
+<!-- ======================================================
+     ОПЕРАЦИИ
+     ====================================================== -->
+
+<section
+  id="ops"
+  class="page">
+
+
+  <div class="two">
+
+
+    <div class="card">
+
+
+      <div class="title">
+        Добавить операцию
+      </div>
+
+
+      <form id="opForm">
+
+
+        <select id="type">
+
+          <option value="income">
+            Доход
+          </option>
+
+          <option value="expense">
+            Расход
+          </option>
+
+        </select>
+
+
+        <input
+          id="amount"
+          type="number"
+          min="0"
+          placeholder="Сумма, ₸"
+          required>
+
+
+        <input
+          id="cat"
+          placeholder="Категория"
+          required>
+
+
+        <input
+          id="date"
+          type="date"
+          required>
+
+
+        <input
+          id="note"
+          class="full"
+          placeholder="Комментарий">
+
+
+        <button class="btn full">
+          Добавить
+        </button>
+
+
+      </form>
+
+
+    </div>
+
+
+
+    <div class="card">
+
+
+      <div class="title">
+        Правило
+      </div>
+
+
+      <div class="hint">
+
+        Категории лучше держать стабильными:
+        Еда, Транспорт, Одежда,
+        Развлечения, Бизнес.
+
+        Так анализ будет точнее.
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <div
+    class="card"
+    style="margin-top:10px">
+
+
+    <div class="title">
+      Все операции
+    </div>
+
+
+    <div id="all"></div>
+
+
+  </div>
+
+
+</section>
+
+
+
+<!-- ======================================================
+     ЦЕЛИ
+     ====================================================== -->
+
+<section
+  id="goalsPage"
+  class="page">
+
+
+  <div class="two">
+
+
+    <div class="card">
+
+
+      <div class="title">
+        Новая цель
+      </div>
+
+
+      <button
+        type="button"
+        class="btn goalAdd"
+        onclick="toggleGoalForm()">
+
         ＋ Добавить цель
+
       </button>
 
-      <div id="goalFormWrap" style="display:none">
+
+      <div
+        id="goalFormWrap"
+        style="display:none">
+
 
         <form id="goalForm">
 
-          <input id="gname"
-                 placeholder="Например: капитал"
-                 required>
 
-          <input id="gtarget"
-                 type="number"
-                 min="1"
-                 placeholder="Цель, ₸"
-                 required>
+          <input
+            id="gname"
+            placeholder="Например: капитал"
+            required>
 
-          <input id="gsaved"
-                 type="number"
-                 min="0"
-                 placeholder="Уже есть, ₸"
-                 value="0">
 
-          <input id="gdate"
-                 type="date">
+          <input
+            id="gtarget"
+            type="number"
+            min="1"
+            placeholder="Цель, ₸"
+            required>
+
+
+          <input
+            id="gsaved"
+            type="number"
+            min="0"
+            placeholder="Уже есть, ₸"
+            value="0">
+
+
+          <input
+            id="gdate"
+            type="date">
+
 
           <button class="btn full">
             Создать цель
           </button>
 
+
         </form>
+
 
       </div>
 
+
     </div>
+
+
 
     <div class="card">
 
-      <div class="title">Как работает</div>
+
+      <div class="title">
+        Как работает
+      </div>
+
 
       <div class="hint">
+
         Цели не меняют баланс автоматически.
+
         Пополняй их отдельно через кнопку
         «＋ Пополнить».
+
       </div>
+
 
     </div>
 
+
   </div>
 
-  <div class="card" style="margin-top:10px">
 
-    <div class="title">Мои цели</div>
+
+  <div
+    class="card"
+    style="margin-top:10px">
+
+
+    <div class="title">
+      Мои цели
+    </div>
+
 
     <div id="goalsList"></div>
 
+
   </div>
+
 
 </section>
 
-<section id="analysis" class="page">
+
+
+<!-- ======================================================
+     АНАЛИЗ
+     ====================================================== -->
+
+<section
+  id="analysis"
+  class="page">
+
 
   <div class="card">
 
-    <div class="title">Период анализа</div>
+
+    <div class="title">
+      Период анализа
+    </div>
+
 
     <div class="dateRange">
 
-      <label>
-        <span>с</span>
-        <input id="fromDate" type="date">
-      </label>
 
       <label>
-        <span>по</span>
-        <input id="toDate" type="date">
+
+        <span>
+          с
+        </span>
+
+        <input
+          id="fromDate"
+          type="date">
+
       </label>
+
+
+      <label>
+
+        <span>
+          по
+        </span>
+
+        <input
+          id="toDate"
+          type="date">
+
+      </label>
+
 
     </div>
 
-    <div class="hint" style="margin-top:8px">
+
+    <div
+      class="hint"
+      style="margin-top:8px">
+
       По умолчанию — текущий месяц.
+
       Анализ учитывает только выбранный период.
+
     </div>
 
-  </div>
-
-  <div class="card" style="margin-top:10px">
-
-    <div class="title">Умный финансовый анализ</div>
-
-    <div id="analysisText" class="advice"></div>
 
   </div>
 
-  <div class="card" style="margin-top:10px">
 
-    <div class="title">Итоги</div>
+
+  <div
+    class="card"
+    style="margin-top:10px">
+
+
+    <div class="title">
+      Умный финансовый анализ
+    </div>
+
+
+    <div
+      id="analysisText"
+      class="advice">
+    </div>
+
+
+  </div>
+
+
+
+  <div
+    class="card"
+    style="margin-top:10px">
+
+
+    <div class="title">
+      Итоги
+    </div>
+
 
     <div class="kpis">
 
-      <div class="mini">
-        <span class="label">Расходы / доходы</span>
-        <b id="rate">0%</b>
-      </div>
 
       <div class="mini">
-        <span class="label">Средний расход</span>
-        <b id="avg">0 ₸</b>
+
+        <span class="label">
+          Расходы / доходы
+        </span>
+
+        <b id="rate">
+          0%
+        </b>
+
       </div>
 
+
       <div class="mini">
-        <span class="label">Операций</span>
-        <b id="count">0</b>
+
+        <span class="label">
+          Средний расход
+        </span>
+
+        <b id="avg">
+          0 ₸
+        </b>
+
       </div>
+
+
+      <div class="mini">
+
+        <span class="label">
+          Операций
+        </span>
+
+        <b id="count">
+          0
+        </b>
+
+      </div>
+
 
     </div>
 
+
   </div>
+
 
 </section>
 
-<section id="import" class="page">
+
+
+<!-- ======================================================
+     ИМПОРТ
+     ====================================================== -->
+
+<section
+  id="import"
+  class="page">
+
 
   <div class="two">
 
+
     <div class="card">
 
-      <div class="title">Импорт выписки</div>
+
+      <div class="title">
+        Импорт выписки
+      </div>
+
 
       <div class="upload">
 
-        <b>Выбери файл выписки</b>
+        <b>
+          Выбери файл выписки
+        </b>
+
         <br>
 
-        <input id="file"
-               type="file"
-               accept=".csv,.xlsx,.xls,.pdf">
+        <input
+          id="file"
+          type="file"
+          accept=".csv,.xlsx,.xls,.pdf">
 
       </div>
 
+
       <p class="hint">
+
         CSV/XLSX разбираются локально.
+
         PDF тоже читается прямо в браузере.
+
         Для точного Kaspi-парсинга желательно
         проверить один реальный PDF.
+
       </p>
 
-      <div id="status" class="hint"></div>
+
+      <div
+        id="status"
+        class="hint">
+      </div>
+
 
     </div>
+
+
 
     <div class="card">
 
-      <div class="title">На iPhone</div>
+
+      <div class="title">
+        На iPhone
+      </div>
+
 
       <div class="hint">
+
         Открой MyPlan именно в Safari →
-        «Поделиться» → «На экран „Домой“».
-        Если пункта нет, прокрути меню вниз
+
+        «Поделиться» →
+        «На экран „Домой“».
+
+        Если пункта нет,
+        прокрути меню вниз
         или открой «Изменить действия».
+
       </div>
+
 
     </div>
 
+
   </div>
+
 
 </section>
 
+
+
 <div class="footer">
+
   Данные MyPlan хранятся локально в браузере.
-  Не добавляй банковские выписки в публичный GitHub-репозиторий.
+
+  Не добавляй банковские выписки
+  в публичный GitHub-репозиторий.
+
 </div>
+
 
 </main>
 
+
+
 <script>
 
+/* =========================================================
+   ХРАНИЛИЩЕ
+   ========================================================= */
+
 const KEY='myplan_v7';
+
 const GKEY='myplan_goals_v7';
 
-let d=JSON.parse(localStorage.getItem(KEY)||'[]');
-let g=JSON.parse(localStorage.getItem(GKEY)||'[]');
 
-const $=x=>document.getElementById(x);
+let d=
+  JSON.parse(
+    localStorage.getItem(KEY)||'[]'
+  );
 
-const money=n=>
-  new Intl.NumberFormat('ru-RU')
-  .format(Math.round(n))+' ₸';
 
-const esc=s=>
-  String(s??'').replace(/[&<>"']/g,m=>({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#039;'
-  }[m]));
+let g=
+  JSON.parse(
+    localStorage.getItem(GKEY)||'[]'
+  );
+
+
+const $=
+  x=>document.getElementById(x);
+
+
+/* =========================================================
+   ФОРМАТ ДЕНЕГ
+   ========================================================= */
+
+const money=
+  n=>
+    new Intl.NumberFormat('ru-RU')
+      .format(Math.round(n))
+      +' ₸';
+
+
+/* =========================================================
+   ESCAPE
+   ========================================================= */
+
+const esc=
+  s=>
+    String(s??'')
+      .replace(
+        /[&<>"']/g,
+        m=>({
+          '&':'&amp;',
+          '<':'&lt;',
+          '>':'&gt;',
+          '"':'&quot;',
+          "'":'&#039;'
+        }[m])
+      );
+
+
+/* =========================================================
+   SAVE
+   ========================================================= */
 
 function save(){
-  localStorage.setItem(KEY,JSON.stringify(d));
+
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(d)
+  );
+
   render();
 }
 
+
 function saveG(){
-  localStorage.setItem(GKEY,JSON.stringify(g));
+
+  localStorage.setItem(
+    GKEY,
+    JSON.stringify(g)
+  );
+
   render();
 }
+
+
+/* =========================================================
+   PERIOD
+   ========================================================= */
 
 function periodData(){
 
   let f=$('fromDate').value;
+
   let t=$('toDate').value;
 
-  return d.filter(x=>
-    (!f||x.date>=f)&&
-    (!t||x.date<=t)
+
+  return d.filter(
+    x=>
+      (!f||x.date>=f)&&
+      (!t||x.date<=t)
   );
 }
+
+
+/* =========================================================
+   DEFAULT PERIOD
+   ========================================================= */
 
 function setDefaultPeriod(){
 
   let n=new Date();
+
   let y=n.getFullYear();
+
   let m=n.getMonth();
+
 
   $('fromDate').value=
     `${y}-${String(m+1).padStart(2,'0')}-01`;
 
+
   $('toDate').value=
     new Date(y,m+1,0)
-    .toISOString()
-    .slice(0,10);
+      .toISOString()
+      .slice(0,10);
 }
+
+
+/* =========================================================
+   GOAL HTML
+   ========================================================= */
 
 function goalHtml(x){
 
-  let p=x.target
-    ?Math.min(100,x.saved/x.target*100)
-    :0;
+  let p=
+    x.target
+      ?Math.min(
+        100,
+        x.saved/x.target*100
+      )
+      :0;
+
 
   return `
+
   <div class="goal">
+
 
     <div class="goaltop">
 
+
       <div>
 
+
         <div class="goalname">
+
           ${esc(x.name)}
+
         </div>
+
 
         <div class="small">
+
           ${money(x.saved)}
+
           из
+
           ${money(x.target)}
+
           ·
+
           ${Math.round(p)}%
+
         </div>
 
+
       </div>
+
 
       <button
         class="btn red"
         onclick="delG(${x.id})">
+
         ×
+
       </button>
 
+
     </div>
 
+
     <div class="progress">
-      <span style="width:${p}%"></span>
+
+      <span
+        style="width:${p}%">
+      </span>
+
     </div>
+
 
     ${
       x.deadline
-      ?`<div class="small">
-          Срок: ${x.deadline}
-        </div>`
-      :''
+        ?`
+          <div class="small">
+            Срок: ${x.deadline}
+          </div>
+        `
+        :''
     }
 
-    <div style="
-      display:flex;
-      gap:7px;
-      margin-top:9px;
-      flex-wrap:wrap">
+
+    <div
+      style="
+        display:flex;
+        gap:7px;
+        margin-top:9px;
+        flex-wrap:wrap">
 
       <button
         class="btn alt"
         type="button"
         onclick="addToGoal(${x.id})">
+
         ＋ Пополнить
+
       </button>
 
     </div>
 
-  </div>`;
+
+  </div>
+
+  `;
 }
+
+
+/* =========================================================
+   GOAL FORM
+   ========================================================= */
 
 function toggleGoalForm(){
 
   let w=$('goalFormWrap');
 
+
   w.style.display=
     w.style.display==='none'
-    ?'block'
-    :'none';
+      ?'block'
+      :'none';
 
-  if(w.style.display==='block'){
+
+  if(
+    w.style.display==='block'
+  ){
 
     setTimeout(()=>{
 
@@ -874,226 +1914,447 @@ function toggleGoalForm(){
     },50);
 
   }
+
 }
+
+
+/* =========================================================
+   ADD TO GOAL
+   ========================================================= */
 
 function addToGoal(id){
 
-  let x=g.find(v=>v.id===id);
+  let x=
+    g.find(v=>v.id===id);
+
 
   if(!x)return;
 
-  let n=prompt(
-    `Сколько добавить к цели «${x.name}»?`,
-    '0'
-  );
+
+  let n=
+    prompt(
+      `Сколько добавить к цели «${x.name}»?`,
+      '0'
+    );
+
 
   if(n===null)return;
 
-  let a=Number(
-    String(n).replace(',','.')
-  );
 
-  if(!Number.isFinite(a)||a<0){
+  let a=
+    Number(
+      String(n)
+        .replace(',','.')
+    );
 
-    alert('Введите корректную сумму.');
+
+  if(
+    !Number.isFinite(a)||
+    a<0
+  ){
+
+    alert(
+      'Введите корректную сумму.'
+    );
+
     return;
-
   }
+
 
   x.saved+=a;
 
   saveG();
 }
 
+
+/* =========================================================
+   DELETE
+   ========================================================= */
+
 function del(id){
 
-  d=d.filter(x=>x.id!==id);
+  d=
+    d.filter(
+      x=>x.id!==id
+    );
 
   save();
 }
 
+
 function delG(id){
 
-  g=g.filter(x=>x.id!==id);
+  g=
+    g.filter(
+      x=>x.id!==id
+    );
 
   saveG();
 }
 
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+
 function render(){
 
-  let pd=periodData();
+  let pd=
+    periodData();
 
-  let i=pd
-    .filter(x=>x.t==='i')
-    .reduce((a,x)=>a+x.a,0);
 
-  let e=pd
-    .filter(x=>x.t==='e')
-    .reduce((a,x)=>a+x.a,0);
+  let i=
+    pd
+      .filter(x=>x.t==='i')
+      .reduce(
+        (a,x)=>a+x.a,
+        0
+      );
+
+
+  let e=
+    pd
+      .filter(x=>x.t==='e')
+      .reduce(
+        (a,x)=>a+x.a,
+        0
+      );
+
 
   let b=i-e;
 
-  $('income').textContent=money(i);
-  $('expense').textContent=money(e);
-  $('balance').textContent=money(b);
-  $('left').textContent=money(b);
+
+  $('income').textContent=
+    money(i);
+
+
+  $('expense').textContent=
+    money(e);
+
+
+  $('balance').textContent=
+    money(b);
+
+
+  $('left').textContent=
+    money(b);
+
+
+  /* =====================================================
+     CATEGORIES
+     ===================================================== */
 
   let c={};
+
 
   d
     .filter(x=>x.t==='e')
     .forEach(x=>{
-      c[x.c]=(c[x.c]||0)+x.a
+
+      c[x.c]=
+        (c[x.c]||0)+x.a;
+
     });
 
-  let ce=Object.entries(c)
-    .sort((a,b)=>b[1]-a[1]);
 
-  let mx=ce[0]?.[1]||1;
+  let ce=
+    Object.entries(c)
+      .sort(
+        (a,b)=>b[1]-a[1]
+      );
 
-  $('cats').innerHTML=ce.length
 
-    ?ce.map(([k,v])=>`
+  let mx=
+    ce[0]?.[1]||1;
 
-      <div style="margin-bottom:13px">
 
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          margin-bottom:5px">
+  $('cats').innerHTML=
+    ce.length
 
-          <span>${esc(k)}</span>
-          <span>${money(v)}</span>
+      ?ce.map(
+        ([k,v])=>`
 
+          <div
+            style="margin-bottom:13px">
+
+            <div
+              style="
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:5px">
+
+              <span>
+                ${esc(k)}
+              </span>
+
+              <span>
+                ${money(v)}
+              </span>
+
+            </div>
+
+
+            <div class="bar">
+
+              <span
+                style="
+                  width:${v/mx*100}%">
+              </span>
+
+            </div>
+
+          </div>
+
+        `
+      ).join('')
+
+      :`
+        <div class="empty">
+          Пока нет расходов.
         </div>
+      `;
 
-        <div class="bar">
-          <span style="width:${v/mx*100}%"></span>
-        </div>
 
-      </div>
+  /* =====================================================
+     RECENT
+     ===================================================== */
 
-    `).join('')
-
-    :'<div class="empty">Пока нет расходов.</div>';
-
-  let s=[...d]
-    .sort((a,b)=>
-      b.date.localeCompare(a.date)||
-      b.id-a.id
+  let s=
+    [...d].sort(
+      (a,b)=>
+        b.date.localeCompare(a.date)||
+        b.id-a.id
     );
 
-  let rr=s.slice(0,10)
-    .map(x=>`
 
-      <tr>
+  let rr=
+    s
+      .slice(0,10)
+      .map(
+        x=>`
 
-        <td>${x.date}</td>
+          <tr>
 
-        <td>${esc(x.c)}</td>
+            <td>
+              ${x.date}
+            </td>
 
-        <td class="${x.t==='i'?'green':'red'}">
-          ${x.t==='i'?'+':'−'}${money(x.a)}
-        </td>
+            <td>
+              ${esc(x.c)}
+            </td>
 
-      </tr>
+            <td
+              class="${x.t==='i'
+                ?'green'
+                :'red'}">
 
-    `).join('');
+              ${x.t==='i'?'+':'−'}
+              ${money(x.a)}
 
-  $('recent').innerHTML=rr
+            </td>
 
-    ?`
-      <table>
+          </tr>
 
-        <tr>
-          <th>Дата</th>
-          <th>Категория</th>
-          <th>Сумма</th>
-        </tr>
+        `
+      )
+      .join('');
 
-        ${rr}
 
-      </table>
-    `
+  $('recent').innerHTML=
 
-    :'<div class="empty">Нет операций.</div>';
+    rr
 
-  $('all').innerHTML=s.length
+      ?`
 
-    ?`
-      <table>
+        <table>
 
-        <tr>
-          <th>Дата</th>
-          <th>Тип</th>
-          <th>Категория</th>
-          <th>Сумма</th>
-          <th></th>
-        </tr>
+          <tr>
 
-        ${
-          s.map(x=>`
+            <th>
+              Дата
+            </th>
 
-            <tr>
+            <th>
+              Категория
+            </th>
 
-              <td>${x.date}</td>
+            <th>
+              Сумма
+            </th>
 
-              <td>
-                ${x.t==='i'?'Доход':'Расход'}
-              </td>
+          </tr>
 
-              <td>
-                ${esc(x.c)}
+          ${rr}
 
-                ${
-                  x.n
-                  ?`<br>
-                     <span class="small">
-                       ${esc(x.n)}
-                     </span>`
-                  :''
-                }
+        </table>
 
-              </td>
+      `
 
-              <td class="${x.t==='i'?'green':'red'}">
-                ${x.t==='i'?'+':'−'}${money(x.a)}
-              </td>
+      :`
+        <div class="empty">
+          Нет операций.
+        </div>
+      `;
 
-              <td>
-                <button
-                  class="btn red"
-                  onclick="del(${x.id})">
-                  ×
-                </button>
-              </td>
 
-            </tr>
+  /* =====================================================
+     ALL
+     ===================================================== */
 
-          `).join('')
-        }
+  $('all').innerHTML=
 
-      </table>
-    `
+    s.length
 
-    :'<div class="empty">Нет операций.</div>';
+      ?`
 
-  let rate=i?e/i:0;
+        <table>
 
-  let ex=pd.filter(x=>x.t==='e');
+          <tr>
 
-  let av=ex.length
-    ?e/ex.length
-    :0;
+            <th>
+              Дата
+            </th>
+
+            <th>
+              Тип
+            </th>
+
+            <th>
+              Категория
+            </th>
+
+            <th>
+              Сумма
+            </th>
+
+            <th></th>
+
+          </tr>
+
+
+          ${
+
+            s.map(
+              x=>`
+
+                <tr>
+
+                  <td>
+                    ${x.date}
+                  </td>
+
+
+                  <td>
+                    ${
+                      x.t==='i'
+                        ?'Доход'
+                        :'Расход'
+                    }
+                  </td>
+
+
+                  <td>
+
+                    ${esc(x.c)}
+
+                    ${
+                      x.n
+                        ?`
+                          <br>
+
+                          <span class="small">
+                            ${esc(x.n)}
+                          </span>
+                        `
+                        :''
+                    }
+
+                  </td>
+
+
+                  <td
+                    class="${x.t==='i'
+                      ?'green'
+                      :'red'}">
+
+                    ${x.t==='i'?'+':'−'}
+                    ${money(x.a)}
+
+                  </td>
+
+
+                  <td>
+
+                    <button
+                      class="btn red"
+                      onclick="del(${x.id})">
+
+                      ×
+
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              `
+            ).join('')
+
+          }
+
+        </table>
+
+      `
+
+      :`
+
+        <div class="empty">
+          Нет операций.
+        </div>
+
+      `;
+
+
+  /* =====================================================
+     KPIs
+     ===================================================== */
+
+  let rate=
+    i
+      ?e/i
+      :0;
+
+
+  let ex=
+    pd.filter(
+      x=>x.t==='e'
+    );
+
+
+  let av=
+    ex.length
+      ?e/ex.length
+      :0;
+
 
   $('rate').textContent=
     Math.round(rate*100)+'%';
 
-  $('avg').textContent=money(av);
 
-  $('count').textContent=pd.length;
+  $('avg').textContent=
+    money(av);
+
+
+  $('count').textContent=
+    pd.length;
+
+
+  /* =====================================================
+     ADVICE
+     ===================================================== */
 
   let a=[];
+
 
   if(!d.length){
 
@@ -1109,6 +2370,7 @@ function render(){
       `от доходов за выбранный период.`
     );
 
+
     if(ce[0]){
 
       a.push(
@@ -1118,6 +2380,7 @@ function render(){
       );
 
     }
+
 
     if(rate>.8){
 
@@ -1140,6 +2403,7 @@ function render(){
 
     }
 
+
     if(b<0){
 
       a.push(
@@ -1151,61 +2415,131 @@ function render(){
 
   }
 
+
   $('quick').innerHTML=
     a.join('<br><br>');
+
 
   $('analysisText').innerHTML=
     a.join('<br><br>');
 
+
+  /* =====================================================
+     GOALS
+     ===================================================== */
+
   $('goalsList').innerHTML=
+
     g.length
-    ?g.map(goalHtml).join('')
-    :'<div class="empty">Целей пока нет. Нажми «＋ Добавить цель».</div>';
+
+      ?g
+        .map(goalHtml)
+        .join('')
+
+      :`
+        <div class="empty">
+          Целей пока нет.
+          Нажми «＋ Добавить цель».
+        </div>
+      `;
+
 
   $('goalMini').innerHTML=
-    g.slice(0,3)
-     .map(goalHtml)
-     .join('')||
-    '<div class="empty">Добавь первую цель.</div>';
+
+    g
+      .slice(0,3)
+      .map(goalHtml)
+      .join('')
+
+      ||
+
+      `
+        <div class="empty">
+          Добавь первую цель.
+        </div>
+      `;
+
 }
+
+
+/* =========================================================
+   ANALYSIS
+   ========================================================= */
 
 function renderAnalysis(){
 
-  let pd=periodData();
+  let pd=
+    periodData();
 
-  let i=pd
-    .filter(x=>x.t==='i')
-    .reduce((a,x)=>a+x.a,0);
 
-  let e=pd
-    .filter(x=>x.t==='e')
-    .reduce((a,x)=>a+x.a,0);
+  let i=
+    pd
+      .filter(x=>x.t==='i')
+      .reduce(
+        (a,x)=>a+x.a,
+        0
+      );
 
-  let rate=i?e/i:0;
 
-  let ex=pd.filter(x=>x.t==='e');
+  let e=
+    pd
+      .filter(x=>x.t==='e')
+      .reduce(
+        (a,x)=>a+x.a,
+        0
+      );
 
-  let av=ex.length
-    ?e/ex.length
-    :0;
+
+  let rate=
+    i
+      ?e/i
+      :0;
+
+
+  let ex=
+    pd.filter(
+      x=>x.t==='e'
+    );
+
+
+  let av=
+    ex.length
+      ?e/ex.length
+      :0;
+
 
   $('rate').textContent=
     Math.round(rate*100)+'%';
 
-  $('avg').textContent=money(av);
 
-  $('count').textContent=pd.length;
+  $('avg').textContent=
+    money(av);
+
+
+  $('count').textContent=
+    pd.length;
+
 
   let c={};
 
+
   ex.forEach(x=>{
-    c[x.c]=(c[x.c]||0)+x.a
+
+    c[x.c]=
+      (c[x.c]||0)+x.a;
+
   });
 
-  let ce=Object.entries(c)
-    .sort((a,b)=>b[1]-a[1]);
+
+  let ce=
+    Object.entries(c)
+      .sort(
+        (a,b)=>b[1]-a[1]
+      );
+
 
   let a=[];
+
 
   if(!pd.length){
 
@@ -1221,10 +2555,12 @@ function renderAnalysis(){
       `<b>${money(e)}</b>.`
     );
 
+
     a.push(
       `Расходы составляют `+
       `<b>${Math.round(rate*100)}%</b> от доходов.`
     );
+
 
     if(ce[0]){
 
@@ -1235,6 +2571,7 @@ function renderAnalysis(){
       );
 
     }
+
 
     if(rate>.8){
 
@@ -1259,399 +2596,630 @@ function renderAnalysis(){
 
   }
 
+
   $('analysisText').innerHTML=
     a.join('<br><br>');
+
 }
 
+
+/* =========================================================
+   PERIOD EVENTS
+   ========================================================= */
+
 $('fromDate').onchange=()=>{
+
   render();
+
   renderAnalysis();
+
 };
 
+
 $('toDate').onchange=()=>{
+
   render();
+
   renderAnalysis();
+
 };
+
+
+/* =========================================================
+   DEFAULT DATE
+   ========================================================= */
 
 $('date').value=
   new Date()
-  .toISOString()
-  .slice(0,10);
+    .toISOString()
+    .slice(0,10);
+
+
+/* =========================================================
+   ADD OPERATION
+   ========================================================= */
 
 $('opForm').onsubmit=e=>{
 
   e.preventDefault();
 
+
   d.push({
 
     id:Date.now(),
 
-    t:$('type').value==='income'
-      ?'i'
-      :'e',
+    t:
+      $('type').value==='income'
+        ?'i'
+        :'e',
 
     a:+$('amount').value,
 
-    c:$('cat').value.trim()||
+    c:
+      $('cat').value.trim()
+      ||
       'Без категории',
 
-    date:$('date').value,
+    date:
+      $('date').value,
 
-    n:$('note').value.trim()
+    n:
+      $('note').value.trim()
 
   });
 
+
   e.target.reset();
+
 
   $('date').value=
     new Date()
-    .toISOString()
-    .slice(0,10);
+      .toISOString()
+      .slice(0,10);
+
 
   save();
+
   renderAnalysis();
+
 };
+
+
+/* =========================================================
+   ADD GOAL
+   ========================================================= */
 
 $('goalForm').onsubmit=e=>{
 
   e.preventDefault();
 
+
   g.push({
 
     id:Date.now(),
 
-    name:$('gname').value,
+    name:
+      $('gname').value,
 
-    target:+$('gtarget').value,
+    target:
+      +$('gtarget').value,
 
-    saved:+$('gsaved').value||0,
+    saved:
+      +$('gsaved').value||0,
 
-    deadline:$('gdate').value
+    deadline:
+      $('gdate').value
 
   });
 
+
   e.target.reset();
 
-  $('goalFormWrap').style.display='none';
+
+  $('goalFormWrap')
+    .style.display='none';
+
 
   saveG();
+
 };
 
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
 document
-.querySelectorAll('nav button')
-.forEach(b=>{
+  .querySelectorAll('nav button')
+  .forEach(b=>{
 
-  b.onclick=()=>{
+    b.onclick=()=>{
 
-    document
-    .querySelectorAll('nav button')
-    .forEach(x=>
-      x.classList.remove('active')
-    );
+      document
+        .querySelectorAll('nav button')
+        .forEach(x=>
+          x.classList.remove('active')
+        );
 
-    b.classList.add('active');
 
-    document
-    .querySelectorAll('.page')
-    .forEach(x=>
-      x.classList.remove('active')
-    );
+      b.classList.add('active');
 
-    $(b.dataset.p)
-    .classList.add('active');
 
-  };
+      document
+        .querySelectorAll('.page')
+        .forEach(x=>
+          x.classList.remove('active')
+        );
 
-});
+
+      $(b.dataset.p)
+        .classList.add('active');
+
+    };
+
+  });
+
+
+/* =========================================================
+   SIMPLE IMPORT PARSER
+   ========================================================= */
 
 function parseSimple(text){
 
   let out=[];
 
-  for(let line of text.split(/\r?\n/)){
 
-    let nums=line.match(
-      /-?\s*\d[\d\s]*(?:[.,]\d{1,2})?/g
-    );
+  for(
+    let line of
+    text.split(/\r?\n/)
+  ){
+
+    let nums=
+      line.match(
+        /-?\s*\d[\d\s]*(?:[.,]\d{1,2})?/g
+      );
+
 
     if(!nums)continue;
 
-    let n=parseFloat(
-      nums[nums.length-1]
-      .replace(/\s/g,'')
-      .replace(',','.')
-    );
 
-    if(!Number.isFinite(n)||n===0)continue;
+    let n=
+      parseFloat(
+        nums[nums.length-1]
+          .replace(/\s/g,'')
+          .replace(',','.')
+      );
 
-    let dm=(
-      line.match(
-        /\b(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})\b/
-      )||[]
-    ).slice(1);
+
+    if(
+      !Number.isFinite(n)||
+      n===0
+    )continue;
+
+
+    let dm=
+      (
+        line.match(
+          /\b(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})\b/
+        )||[]
+      ).slice(1);
+
 
     let date=
       new Date()
-      .toISOString()
-      .slice(0,10);
+        .toISOString()
+        .slice(0,10);
+
 
     if(dm.length===3){
 
       date=
-        `${
-          dm[2].length===2
+        `${dm[2].length===2
           ?'20'+dm[2]
-          :dm[2]
-        }-${
-          dm[1].padStart(2,'0')
-        }-${
-          dm[0].padStart(2,'0')
-        }`;
+          :dm[2]}-`+
+
+        `${dm[1].padStart(2,'0')}-`+
+
+        `${dm[0].padStart(2,'0')}`;
 
     }
 
-    let low=line.toLowerCase();
+
+    let low=
+      line.toLowerCase();
+
 
     let t=
       /поступ|зачис|пополн|вход|income|приход|получ/
-      .test(low)
-      ?'i'
-      :'e';
+        .test(low)
+
+        ?'i'
+
+        :'e';
+
 
     let c=
+
       /магаз|суперм|продукт|еда|кафе|ресторан/
-      .test(low)
-      ?'Еда'
+        .test(low)
+
+        ?'Еда'
+
       :
+
       /такси|uber|яндекс|автобус/
-      .test(low)
-      ?'Транспорт'
+        .test(low)
+
+        ?'Транспорт'
+
       :
+
       /аптек|лекар|клиник/
-      .test(low)
-      ?'Здоровье'
+        .test(low)
+
+        ?'Здоровье'
+
       :
+
       /одежд|обув/
-      .test(low)
-      ?'Одежда'
+        .test(low)
+
+        ?'Одежда'
+
       :
+
       /игр|steam|playstation/
-      .test(low)
-      ?'Развлечения'
+        .test(low)
+
+        ?'Развлечения'
+
       :
+
       /бизнес|товар|реклам/
-      .test(low)
-      ?'Бизнес'
-      :'Другое';
+        .test(low)
+
+        ?'Бизнес'
+
+      :
+
+        'Другое';
+
 
     out.push({
 
-      id:Date.now()+Math.random(),
+      id:
+        Date.now()+Math.random(),
 
       t,
 
-      a:Math.abs(n),
+      a:
+        Math.abs(n),
 
       c,
 
       date,
 
-      n:line.slice(0,140)
+      n:
+        line.slice(0,140)
 
     });
 
   }
 
+
   return out;
+
 }
 
-$('file').onchange=async e=>{
 
-  let f=e.target.files[0];
+/* =========================================================
+   FILE IMPORT
+   ========================================================= */
 
-  if(!f)return;
+$('file').onchange=
+  async e=>{
 
-  $('status').textContent=
-    'Обрабатываю…';
+    let f=
+      e.target.files[0];
 
-  try{
 
-    if(/\.csv$/i.test(f.name)){
+    if(!f)return;
 
-      let add=
-        parseSimple(await f.text());
 
-      d.push(...add);
+    $('status').textContent=
+      'Обрабатываю…';
 
-      save();
 
-      $('status').textContent=
-        `Добавлено: ${add.length}. `+
-        `Проверь операции и категории.`;
+    try{
 
-    }else if(/\.xlsx?$/i.test(f.name)){
 
-      if(!window.XLSX){
+      /* CSV */
 
-        $('status').textContent=
-          'Excel-модуль ещё не загрузился.';
-
-        return;
-      }
-
-      let b=await f.arrayBuffer();
-
-      let w=XLSX.read(b,{
-        type:'array'
-      });
-
-      let rows=
-        XLSX.utils.sheet_to_json(
-          w.Sheets[w.SheetNames[0]],
-          {
-            header:1,
-            defval:''
-          }
-        );
-
-      let add=
-        parseSimple(
-          rows
-          .map(r=>r.join(' | '))
-          .join('\n')
-        );
-
-      d.push(...add);
-
-      save();
-
-      $('status').textContent=
-        `Добавлено: ${add.length}. `+
-        `Проверь операции и категории.`;
-
-    }else if(/\.pdf$/i.test(f.name)){
-
-      if(!window.pdfjsLib){
-
-        $('status').textContent=
-          'PDF-модуль ещё не загрузился. '+
-          'Попробуй снова через несколько секунд.';
-
-        return;
-      }
-
-      let b=await f.arrayBuffer();
-
-      let pdf=
-        await pdfjsLib
-        .getDocument({data:b})
-        .promise;
-
-      let parts=[];
-
-      for(
-        let p=1;
-        p<=pdf.numPages;
-        p++
+      if(
+        /\.csv$/i.test(f.name)
       ){
 
-        let page=
-          await pdf.getPage(p);
+        let add=
+          parseSimple(
+            await f.text()
+          );
 
-        let tc=
-          await page.getTextContent();
 
-        parts.push(
-          tc.items
-          .map(z=>z.str)
-          .join(' ')
-        );
+        d.push(...add);
+
+
+        save();
+
+
+        $('status').textContent=
+          `Добавлено: ${add.length}. `+
+          `Проверь операции и категории.`;
+
 
       }
 
-      let add=
-        parseSimple(
-          parts.join('\n')
-        );
 
-      d.push(...add);
+      /* XLSX / XLS */
 
-      save();
+      else if(
+        /\.xlsx?$/i.test(f.name)
+      ){
+
+        if(!window.XLSX){
+
+          $('status').textContent=
+            'Excel-модуль ещё не загрузился.';
+
+          return;
+
+        }
+
+
+        let b=
+          await f.arrayBuffer();
+
+
+        let w=
+          XLSX.read(
+            b,
+            {type:'array'}
+          );
+
+
+        let rows=
+          XLSX.utils.sheet_to_json(
+            w.Sheets[w.SheetNames[0]],
+            {
+              header:1,
+              defval:''
+            }
+          );
+
+
+        let add=
+          parseSimple(
+            rows
+              .map(r=>r.join(' | '))
+              .join('\n')
+          );
+
+
+        d.push(...add);
+
+
+        save();
+
+
+        $('status').textContent=
+          `Добавлено: ${add.length}. `+
+          `Проверь операции и категории.`;
+
+      }
+
+
+      /* PDF */
+
+      else if(
+        /\.pdf$/i.test(f.name)
+      ){
+
+        if(!window.pdfjsLib){
+
+          $('status').textContent=
+            'PDF-модуль ещё не загрузился. '+
+            'Попробуй снова через несколько секунд.';
+
+          return;
+
+        }
+
+
+        let b=
+          await f.arrayBuffer();
+
+
+        let pdf=
+          await pdfjsLib
+            .getDocument({
+              data:b
+            })
+            .promise;
+
+
+        let parts=[];
+
+
+        for(
+          let p=1;
+          p<=pdf.numPages;
+          p++
+        ){
+
+          let page=
+            await pdf.getPage(p);
+
+
+          let tc=
+            await page.getTextContent();
+
+
+          parts.push(
+            tc.items
+              .map(z=>z.str)
+              .join(' ')
+          );
+
+        }
+
+
+        let add=
+          parseSimple(
+            parts.join('\n')
+          );
+
+
+        d.push(...add);
+
+
+        save();
+
+
+        $('status').textContent=
+          `PDF обработан: найдено ${add.length} операций. `+
+          `Проверь даты, суммы и категории.`;
+
+      }
+
+
+      else{
+
+        $('status').textContent=
+          'Формат файла не поддерживается.';
+
+      }
+
+
+    }catch(err){
 
       $('status').textContent=
-        `PDF обработан: найдено ${add.length} операций. `+
-        `Проверь даты, суммы и категории.`;
-
-    }else{
-
-      $('status').textContent=
-        'Формат файла не поддерживается.';
+        'Ошибка импорта: '+
+        err.message;
 
     }
 
-  }catch(err){
 
-    $('status').textContent=
-      'Ошибка импорта: '+err.message;
+    e.target.value='';
 
-  }
+  };
 
-  e.target.value='';
 
-};
+/* =========================================================
+   STARS
+   ========================================================= */
 
-/* Звёзды 0.7:
-   маленькие, статичные,
-   немного смещаются при скролле */
-const c=$('sky');
-const x=c.getContext('2d');
+const c=
+  $('sky');
+
+const x=
+  c.getContext('2d');
+
 
 let stars=[];
+
 let scrollY=0;
+
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
 
 function resize(){
 
-  let q=devicePixelRatio||1;
+  let q=
+    devicePixelRatio||1;
 
-  c.width=innerWidth*q;
-  c.height=innerHeight*q;
+
+  c.width=
+    innerWidth*q;
+
+
+  c.height=
+    innerHeight*q;
+
 
   x.setTransform(
-    q,0,0,q,0,0
+    q,
+    0,
+    0,
+    q,
+    0,
+    0
   );
 
-  stars=Array.from(
-    {
-      length:
-        Math.min(
-          650,
-          Math.floor(innerWidth/1.9)
-        )
-    },
-    ()=>({
 
-      x:
-        Math.random()*innerWidth,
+  /*
+    Больше звёзд.
+    Они стали немного крупнее
+    и ярче.
+  */
 
-      y:
-        Math.random()*innerHeight,
+  stars=
+    Array.from(
+      {
+        length:
+          Math.min(
+            750,
+            Math.floor(
+              innerWidth/1.6
+            )
+          )
+      },
 
-      r:
-        .15+
-        Math.random()*.62,
+      ()=>({
 
-      a:
-        .28+
-        Math.random()*.52,
+        x:
+          Math.random()*innerWidth,
 
-      d:
-        .08+
-        Math.random()*.22
+        y:
+          Math.random()*innerHeight,
 
-    })
-  );
+        /*
+          Размер:
+          от очень маленьких
+          до хорошо заметных.
+        */
+
+        r:
+          .25+
+          Math.random()*.8,
+
+        /*
+          Яркость:
+          теперь звёзды хорошо
+          видны через стекло.
+        */
+
+        a:
+          .45+
+          Math.random()*.55,
+
+        /*
+          Параллакс при скролле.
+        */
+
+        d:
+          .08+
+          Math.random()*.22
+
+      })
+    );
 
 }
+
+
+/* =========================================================
+   DRAW STARS
+   ========================================================= */
 
 function drawStars(){
 
@@ -1662,22 +3230,37 @@ function drawStars(){
     innerHeight
   );
 
-  for(let s of stars){
+
+  for(
+    let s of stars
+  ){
 
     let y=
       (
-        (s.y-scrollY*s.d)
-        %(innerHeight+20)
+        (
+          s.y-
+          scrollY*s.d
+        )
+        %
+        (innerHeight+20)
         +
         innerHeight+20
       )
-      %(innerHeight+20)-10;
+      %
+      (innerHeight+20)
+      -10;
 
-    x.globalAlpha=s.a;
 
-    x.fillStyle='#fff';
+    x.globalAlpha=
+      s.a;
+
+
+    x.fillStyle=
+      '#ffffff';
+
 
     x.beginPath();
+
 
     x.arc(
       s.x,
@@ -1687,13 +3270,20 @@ function drawStars(){
       Math.PI*2
     );
 
+
     x.fill();
 
   }
 
+
   x.globalAlpha=1;
 
 }
+
+
+/* =========================================================
+   WINDOW EVENTS
+   ========================================================= */
 
 addEventListener(
   'resize',
@@ -1703,55 +3293,101 @@ addEventListener(
   }
 );
 
+
 addEventListener(
   'scroll',
   ()=>{
-    scrollY=window.scrollY;
+    scrollY=
+      window.scrollY;
+
     drawStars();
+
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
 
+
+/* =========================================================
+   START
+   ========================================================= */
+
 resize();
+
 drawStars();
 
 setDefaultPeriod();
 
 render();
+
 renderAnalysis();
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+
+<!-- =======================================================
+     XLSX
+     ======================================================= -->
+
+<script
+  src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+</script>
+
+
+
+<!-- =======================================================
+     PDF.JS
+     ======================================================= -->
 
 <script type="module">
 
 import * as pdfjsLib
-from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
 
-window.pdfjsLib=pdfjsLib;
+from
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
 
-pdfjsLib.GlobalWorkerOptions.workerSrc=
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+
+window.pdfjsLib=
+  pdfjsLib;
+
+
+pdfjsLib
+  .GlobalWorkerOptions
+  .workerSrc=
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 
 </script>
 
+
+
+<!-- =======================================================
+     SERVICE WORKER
+     ======================================================= -->
+
 <script>
 
-if('serviceWorker' in navigator){
+if(
+  'serviceWorker'
+  in navigator
+){
 
   window.addEventListener(
     'load',
     ()=>{
+
       navigator.serviceWorker
-      .register('sw.js')
-      .catch(()=>{});
+        .register('sw.js')
+        .catch(()=>{});
+
     }
   );
 
 }
 
 </script>
+
 
 </body>
 </html>
